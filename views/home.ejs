@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL Shortener</title>
+</head>
+<body>
+
+<h1>Welcome to URL Shortener</h1>
+
+<% if (typeof id !== "undefined" && id) { %>
+    <p>
+        Short URL:
+        <a href="/<%= id %>" target="_blank">
+            http://localhost:8001/<%= id %>
+        </a>
+    </p>
+<% } %>
+
+<% if (typeof qrCode !== "undefined" && qrCode) { %>
+    <div style="margin-top:20px;">
+        <h3>QR Code</h3>
+
+        <img
+            src="<%= qrCode %>"
+            alt="QR Code"
+            width="200"
+        />
+    </div>
+<% } %>
+
+<form method="POST" action="/url">
+    <input type="text" name="url" placeholder="https://example.com" required>
+    <button type="submit">Generate</button>
+</form>
+
+<hr>
+
+<% if (urls && urls.length > 0) { %>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Original URL</th>
+                <th>Short URL</th>
+                <th>Clicks</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% urls.forEach((url, i) => { %>
+                <tr>
+                    <td><%= i + 1 %></td>
+                    <td><%= url.originalURL %></td>
+                    <td>
+                        <a href="/<%= url.shortId %>" target="_blank">
+                            <%= url.shortId %>
+                        </a>
+                    </td>
+                    <td><%= url.visitHistory.length %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+<% } %>
+
+</body>
+</html>
